@@ -1,11 +1,13 @@
 package com.day.controller;
 
 import com.day.config.JwtProvider;
+import com.day.modal.Subscription;
 import com.day.modal.User;
 import com.day.repository.UserRepository;
 import com.day.request.LoginRequest;
 import com.day.response.AuthResponse;
 import com.day.service.CustomeUserDetailsImpl;
+import com.day.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,9 @@ public class AuthController {
     @Autowired
     private CustomeUserDetailsImpl customeUserDetails;
 
+    @Autowired
+    private SubscriptionService subscriptionService;
+
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> createUserHandler(@RequestBody User user) throws Exception {
         User isUserExist = userRepository.findByEmail(user.getEmail());
@@ -45,6 +50,8 @@ public class AuthController {
         createdUser.setFullName(user.getFullName());
 
         User savedUser = userRepository.save(createdUser);
+
+        subscriptionService.createSubscription(savedUser);
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
         SecurityContextHolder.getContext().setAuthentication(authentication);
