@@ -18,9 +18,10 @@ export const tags = [
   "spring boot",
   "mysql",
   "oracle",
-  "mongodb",
   "angular",
   "python",
+  "javascript",
+  "java",
 ];
 
 const ProjectList = () => {

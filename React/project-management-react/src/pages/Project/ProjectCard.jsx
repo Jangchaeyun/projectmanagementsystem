@@ -38,7 +38,7 @@ const ProjectCard = () => {
           </div>
           <p className="text-gray-500 text-sm">
             Project Management System은 프로젝트를 팀원들을 초대하고 관리하는
-            시스템을 말한다.
+            시스템
           </p>
         </div>
         <div className="flex flex-wrap gap-2 items-center">
