@@ -23,8 +23,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public Subscription createSubscription(User user) {
         Subscription subscription = new Subscription();
         subscription.setUser(user);
-        subscription.setSubscriptionStartDate(LocalDateTime.now());
-        subscription.setSubscriptionEndDate(LocalDateTime.now().plusMonths(12));
+        subscription.setSubscriptionStartDate(LocalDate.now());
+        subscription.setSubscriptionEndDate(LocalDate.now().plusMonths(12));
         subscription.setValid(true);
         subscription.setPlanType(PlanType.FREE);
 

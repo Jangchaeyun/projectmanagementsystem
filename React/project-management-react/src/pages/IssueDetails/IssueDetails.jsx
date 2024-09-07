@@ -3,9 +3,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React from "react";
 import { useParams } from "react-router-dom";
 import CreateCommentForm from "./CreateCommentForm";
+import CommentCard from "./CommentCard";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 
 const IssueDetails = () => {
   const { projectId, issueId } = useParams();
+  const handleUpdateIssueStatus = (status) => {
+    console.log(status);
+  };
   return (
     <div className="px-20 py-8 text-gray-400">
       <div className="flex justify-between border p-10 rounded-lg">
@@ -31,6 +44,11 @@ const IssueDetails = () => {
                 </TabsContent>
                 <TabsContent value="comments">
                   <CreateCommentForm issueId={issueId} />
+                  <div className="mt-8 space-y-6">
+                    {[1, 1, 1].map((item) => (
+                      <CommentCard key={item} />
+                    ))}
+                  </div>
                 </TabsContent>
                 <TabsContent value="history">
                   여기에서 모든 사용자들의 기록들을 볼 수 있습니다.
@@ -39,6 +57,55 @@ const IssueDetails = () => {
             </div>
           </div>
         </ScrollArea>
+        <div className="w-full lg:w-[30%] space-y-2">
+          <Select onValueChange={handleUpdateIssueStatus}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="할 일" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="pending">할 일</SelectItem>
+              <SelectItem value="in_progress">진행 중</SelectItem>
+              <SelectItem value="done">완료</SelectItem>
+            </SelectContent>
+          </Select>
+          <div className="border rounded-lg">
+            <p className="border-b py-3 px-5">상세</p>
+            <div className="p-5">
+              <div className="space-y-7">
+                <div className="flex gap-10 items-center">
+                  <p className="w-[7rem]">할당된 사람</p>
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-8 w-8 text-xs">
+                      <AvatarFallback>B</AvatarFallback>
+                    </Avatar>
+                    <p>Band Aid</p>
+                  </div>
+                </div>
+                <div className="flex gap-10 items-center">
+                  <p className="w-[7rem]">라벨</p>
+                  <p>None</p>
+                </div>
+                <div className="flex gap-10 items-center">
+                  <p className="w-[7rem]">상태</p>
+                  <Badge>진행중</Badge>
+                </div>
+                <div className="flex gap-10 items-center">
+                  <p className="w-[7rem]">릴리즈</p>
+                  <p>24-09-07</p>
+                </div>
+                <div className="flex gap-10 items-center">
+                  <p className="w-[7rem]">보고자</p>
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-8 w-8 text-xs">
+                      <AvatarFallback>D</AvatarFallback>
+                    </Avatar>
+                    <p>Day Band</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
