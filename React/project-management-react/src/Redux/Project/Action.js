@@ -25,7 +25,7 @@ export const fetchProjects =
         params: { category, tag },
       });
       console.log("all projects", data);
-      dispatch({ type: FETCH_PROJECTS_SUCCESS, payload: data });
+      dispatch({ type: FETCH_PROJECTS_SUCCESS, projects: data });
     } catch (error) {
       console.log("error", error);
     }
@@ -36,7 +36,7 @@ export const searchProjects = (keyword) => async (dispatch) => {
   try {
     const { data } = await api.get("/api/projects/search?keyword=" + keyword);
     console.log("search projects", data);
-    dispatch({ type: SEARCH_PROJECT_SUCCESS, payload: data });
+    dispatch({ type: SEARCH_PROJECT_SUCCESS, projects: data });
   } catch (error) {
     console.log("error", error);
   }
@@ -47,7 +47,7 @@ export const createProject = (projectData) => async (dispatch) => {
   try {
     const { data } = await api.post("/api/projects", projectData);
     console.log("create projects", data);
-    dispatch({ type: CREATE_PROJECT_SUCCESS, project: data });
+    dispatch({ type: CREATE_PROJECT_SUCCESS, projects: data });
   } catch (error) {
     console.log("error", error);
   }
@@ -69,7 +69,7 @@ export const deleteProject =
   async (dispatch) => {
     dispatch({ type: DELETE_PROJECT_REQUEST });
     try {
-      const { data } = await api.delete("/api/projects" + projectId);
+      const { data } = await api.delete("/api/projects/" + projectId);
       console.log("delete project", data);
       dispatch({ type: DELETE_PROJECT_SUCCESS, projectId });
     } catch (error) {

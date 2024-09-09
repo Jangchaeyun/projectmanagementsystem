@@ -6,12 +6,18 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { deleteProject } from "@/Redux/Project/Action";
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { DotFilledIcon, DotsVerticalIcon } from "@radix-ui/react-icons";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const ProjectCard = () => {
+const ProjectCard = ({ item }) => {
   const naviate = useNavigate();
+  const dispatch = useDispatch();
+  const handleDelete = () => {
+    dispatch(deleteProject({ projectId: item.id }));
+  };
   return (
     <Card className="p-5 w-full lg:max-w-3xl">
       <div className="space-y-5">
@@ -22,10 +28,10 @@ const ProjectCard = () => {
                 onClick={() => naviate("/project/3")}
                 className="cursor-pointer font-bold text-lg"
               >
-                Create Project Management System
+                {item.name}
               </h1>
               <DotFilledIcon />
-              <p className="text-sm text-gray-400">fullstack</p>
+              <p className="text-sm text-gray-400">{item.category}</p>
             </div>
             <div>
               <DropdownMenu>
@@ -36,20 +42,19 @@ const ProjectCard = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem>수정</DropdownMenuItem>
-                  <DropdownMenuItem>삭제</DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleDelete}>
+                    삭제
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
           </div>
-          <p className="text-gray-500 text-sm">
-            Project Management System은 프로젝트를 팀원들을 초대하고 관리하는
-            시스템
-          </p>
+          <p className="text-gray-500 text-sm">{item.description}</p>
         </div>
         <div className="flex flex-wrap gap-2 items-center">
-          {[1, 1, 1, 1].map((item) => (
+          {item.tags.map((tag) => (
             <Badge key={item} variant="outline">
-              {"frontend"}
+              {tag}
             </Badge>
           ))}
         </div>
