@@ -1,4 +1,4 @@
-const {
+import {
   FETCH_ISSUES_REQUEST,
   CREATE_ISSUE_REQUEST,
   DELETE_ISSUE_REQUEST,
@@ -14,7 +14,7 @@ const {
   CREATE_ISSUE_FAILURE,
   DELETE_ISSUE_FAILURE,
   ASSIGNED_ISSUE_TO_USER_FAILURE,
-} = require("./ActionType");
+} from "./ActionType";
 
 const initialState = {
   issues: [],

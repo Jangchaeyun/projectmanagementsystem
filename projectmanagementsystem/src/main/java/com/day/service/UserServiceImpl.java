@@ -10,13 +10,12 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService{
-
     @Autowired
     private UserRepository userRepository;
 
     @Override
     public User findUserProfileByJwt(String jwt) throws Exception {
-        String email = JwtProvider.getEmailFromToken("jwt");
+        String email = JwtProvider.getEmailFromToken(jwt);
 
         return findUserByEmail(email);
     }
@@ -40,8 +39,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User updateUsersProjectSize(User user, int number) throws Exception {
-        user.setProjectSize(user.getProjectSize() + number);
+    public User updateUsersProject(User user, int number) throws Exception {
+        user.setProjectSize(user.getProjectSize() +number);
         return userRepository.save(user);
     }
 }

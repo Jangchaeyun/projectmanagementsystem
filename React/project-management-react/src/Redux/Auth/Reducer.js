@@ -32,8 +32,8 @@ export const authReducer = (state = initialState, action) => {
 
     case LOGOUT:
       return initialState;
-      
+
     default:
-      break;
+      return state;
   }
 };

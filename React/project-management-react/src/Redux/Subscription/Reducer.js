@@ -1,12 +1,11 @@
-const { error } = require("console");
-const {
+import {
   GET_USER_SUBSCRIPTION_REQUEST,
   UPGRADE_SUBSCRIPTION_REQUEST,
   GET_USER_SUBSCRIPTION_SUCCESS,
   UPGRADE_SUBSCRIPTION_SUCCESS,
   GET_USER_SUBSCRIPTION_FAILURE,
   UPGRADE_SUBSCRIPTION_FAILURE,
-} = require("./ActionTypes");
+} from "./ActionTypes";
 
 const initialState = {
   userSubscription: null,

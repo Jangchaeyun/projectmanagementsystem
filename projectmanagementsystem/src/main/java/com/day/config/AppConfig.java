@@ -23,15 +23,15 @@ public class AppConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.sessionManagement(Management -> Management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(Authorize -> Authorize.requestMatchers("/api/**").authenticated()
+                .authorizeHttpRequests(Authorization -> Authorization.requestMatchers("/api/**").authenticated()
                         .anyRequest().permitAll())
                 .addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigrationSource()));
+                .cors(cors -> cors.configurationSource(corsConfigurationSouce()));
         return http.build();
     }
 
-    private CorsConfigurationSource corsConfigrationSource() {
+    private CorsConfigurationSource corsConfigurationSouce() {
         return new CorsConfigurationSource() {
             @Override
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {

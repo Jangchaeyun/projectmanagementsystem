@@ -22,8 +22,7 @@ import java.util.List;
 public class JwtTokenValidator extends OncePerRequestFilter {
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
         String jwt = request.getHeader(JwtConstant.JWT_HEADER);
 
@@ -32,14 +31,14 @@ public class JwtTokenValidator extends OncePerRequestFilter {
             jwt = jwt.substring(7);
             try {
                 SecretKey key = Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes());
-                Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
+                Claims claims  = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jwt).getBody();
 
                 String email = String.valueOf(claims.get("email"));
                 String authorities = String.valueOf(claims.get("authorities"));
 
-                List<GrantedAuthority> auth = AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
+                List<GrantedAuthority> auths = AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
 
-                Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, auth);
+                Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, auths);
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (Exception e) {
                 throw new BadCredentialsException("invalid token...");

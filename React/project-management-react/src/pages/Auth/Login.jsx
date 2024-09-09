@@ -7,25 +7,28 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { login } from "@/Redux/Auth/Action";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const form = useForm({
     //resolver:zod
     defaultValues: {
       email: "",
       password: "",
-      fullName: "",
     },
   });
 
   const onSubmit = (data) => {
-    console.log("invite user", data);
+    dispatch(login(data));
+    console.log("login user", data);
   };
   return (
     <div className="space-y-5">
-      <h1>회원가입</h1>
+      <h1>로그인</h1>
       <Form {...form}>
         <form className="space-y-3" onSubmit={form.handleSubmit(onSubmit)}>
           <FormField

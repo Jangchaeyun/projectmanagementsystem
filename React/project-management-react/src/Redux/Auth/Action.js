@@ -11,52 +11,46 @@ import {
 import axios from "axios";
 
 export const register = (userData) => async (dispatch) => {
-  dispatch({
-    type: REGISTER_REQUEST,
-  });
+  dispatch({ type: REGISTER_REQUEST });
   try {
     const { data } = await axios.post(`${API_BASE_URL}/auth/signup`, userData);
     if (data.jwt) {
-      localStorage.getItem("jwt", data.jwt);
+      localStorage.setItem("jwt", data.jwt);
       dispatch({ type: REGISTER_SUCCESS, payload: data });
     }
-    console.log("regiser success");
+
+    console.log("register success", data);
   } catch (error) {
     console.log(error);
   }
 };
 
 export const login = (userData) => async (dispatch) => {
-  dispatch({
-    type: LOGIN_REQUEST,
-  });
+  dispatch({ type: LOGIN_REQUEST });
   try {
-    const { data } = await axios.post(`${API_BASE_URL}/auth/signin`, userData);
+    const { data } = await axios.post(`${API_BASE_URL}/auth/signing`, userData);
     if (data.jwt) {
-      localStorage.getItem("jwt", data.jwt);
+      localStorage.setItem("jwt", data.jwt);
       dispatch({ type: LOGIN_SUCCESS, payload: data });
     }
-    console.log("login success");
+
+    console.log("login success", data);
   } catch (error) {
     console.log(error);
   }
 };
 
 export const getUser = () => async (dispatch) => {
-  dispatch({
-    type: GET_USER_REQUEST,
-  });
+  dispatch({ type: GET_USER_REQUEST });
   try {
-    const { data } = await axios.get(`${API_BASE_URL}/auth/users`, {
+    const { data } = await axios.get(`${API_BASE_URL}/auth/users/profile`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("jwt")}`,
       },
     });
-    if (data.jwt) {
-      localStorage.getItem("jwt", data.jwt);
-      dispatch({ type: GET_USER_SUCCESS, payload: data });
-    }
-    console.log("login success");
+    dispatch({ type: GET_USER_SUCCESS, payload: data });
+
+    console.log("login success", data);
   } catch (error) {
     console.log(error);
   }

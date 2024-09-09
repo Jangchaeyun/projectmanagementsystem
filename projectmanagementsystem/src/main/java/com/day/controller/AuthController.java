@@ -38,8 +38,9 @@ public class AuthController {
     private SubscriptionService subscriptionService;
 
     @PostMapping("/signup")
-    public ResponseEntity<AuthResponse> createUserHandler(@RequestBody User user) throws Exception {
+    public ResponseEntity<User> createUserHandler(@RequestBody User user) throws Exception {
         User isUserExist = userRepository.findByEmail(user.getEmail());
+
         if (isUserExist != null) {
             throw new Exception("email already exist with another account");
         }
@@ -62,7 +63,7 @@ public class AuthController {
         res.setMessage("signup success");
         res.setJwt(jwt);
 
-        return new ResponseEntity<>(res, HttpStatus.CREATED);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
     @PostMapping("/signing")
@@ -76,10 +77,10 @@ public class AuthController {
         String jwt = JwtProvider.generateToken(authentication);
 
         AuthResponse res = new AuthResponse();
-        res.setMessage("signing success");
+        res.setMessage("signin success");
         res.setJwt(jwt);
 
-        return new ResponseEntity<>(res, HttpStatus.CREATED);
+        return  new ResponseEntity<>(res, HttpStatus.OK);
     }
 
     private Authentication authenticate(String username, String password) {
