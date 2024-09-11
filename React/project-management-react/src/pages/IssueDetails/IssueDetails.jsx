@@ -1,6 +1,6 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import React from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import CreateCommentForm from "./CreateCommentForm";
 import CommentCard from "./CommentCard";
@@ -13,23 +13,37 @@ import {
 } from "@/components/ui/select";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchIssueById, updateIssueStatus } from "@/Redux/Issue/Action";
+import { fetchComments } from "@/Redux/Comment/Action";
 
 const IssueDetails = () => {
   const { projectId, issueId } = useParams();
+  const dispatch = useDispatch();
+  const { issue, comment } = useSelector((store) => store);
+
   const handleUpdateIssueStatus = (status) => {
+    dispatch(updateIssueStatus({ status, id: issueId }));
     console.log(status);
   };
+  useEffect(() => {
+    dispatch(fetchIssueById(issueId));
+    dispatch(fetchComments(issueId));
+  }, [issueId]);
+
   return (
     <div className="px-20 py-8 text-gray-400">
       <div className="flex justify-between border p-10 rounded-lg">
         <ScrollArea className="h-[80vh] w-[60%]">
           <div>
             <h1 className="text-lg font-semibold text-gray-400">
-              Create Navbar
+              {issue.issueDetails?.title}
             </h1>
             <div className="py-5">
               <h2 className="font-semibold text-gray-400">설명</h2>
-              <p className="text-gray-400 text-sm mt-3">Create Navbar</p>
+              <p className="text-gray-400 text-sm mt-3">
+                {issue.issueDetails?.description}
+              </p>
             </div>
             <div className="mt-5">
               <h1 className="pb-3">활동</h1>
@@ -45,8 +59,8 @@ const IssueDetails = () => {
                 <TabsContent value="comments">
                   <CreateCommentForm issueId={issueId} />
                   <div className="mt-8 space-y-6">
-                    {[1, 1, 1].map((item) => (
-                      <CommentCard key={item} />
+                    {comment.comments.map((item) => (
+                      <CommentCard item={item} key={item} />
                     ))}
                   </div>
                 </TabsContent>
@@ -74,12 +88,18 @@ const IssueDetails = () => {
               <div className="space-y-7">
                 <div className="flex gap-10 items-center">
                   <p className="w-[7rem]">할당된 사람</p>
-                  <div className="flex items-center gap-3">
-                    <Avatar className="h-8 w-8 text-xs">
-                      <AvatarFallback>B</AvatarFallback>
-                    </Avatar>
-                    <p>Band Aid</p>
-                  </div>
+                  {issue.issueDetails?.assignee?.fullName ? (
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-8 w-8 text-xs">
+                        <AvatarFallback>
+                          {issue.issueDetails?.assignee?.fullName[0]}
+                        </AvatarFallback>
+                      </Avatar>
+                      <p>{issue.issueDetails?.assignee?.fullName}</p>
+                    </div>
+                  ) : (
+                    <p>할당된 사람 없음</p>
+                  )}
                 </div>
                 <div className="flex gap-10 items-center">
                   <p className="w-[7rem]">라벨</p>
@@ -87,7 +107,7 @@ const IssueDetails = () => {
                 </div>
                 <div className="flex gap-10 items-center">
                   <p className="w-[7rem]">상태</p>
-                  <Badge>진행중</Badge>
+                  <Badge>{issue.issueDetails?.status}</Badge>
                 </div>
                 <div className="flex gap-10 items-center">
                   <p className="w-[7rem]">릴리즈</p>

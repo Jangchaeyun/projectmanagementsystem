@@ -1,18 +1,45 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchChatByProject,
+  fetchChatMessages,
+  sendMessage,
+} from "@/Redux/Chat/Action";
+import { useParams } from "react-router-dom";
 
 const ChatBox = () => {
-  const [message, setMessage] = useState();
+  const [message, setMessage] = useState("");
+  const { auth, chat } = useSelector((store) => store);
+  const { id } = useParams();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchChatByProject(id));
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchChatMessages(chat.chat.id));
+  }, []);
+
   const handleSendMessage = () => {
+    dispatch(
+      sendMessage({
+        senderId: auth.user?.id,
+        projectId: id,
+        content: message,
+      })
+    );
     console.log("message", message);
   };
   const handleMessageChange = (e) => {
     setMessage(e.target.value);
   };
+
   return (
     <div className="sticky ">
       <div className="border rounded-lg">

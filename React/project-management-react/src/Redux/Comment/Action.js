@@ -9,7 +9,7 @@ import {
   FETCH_COMMENTS_FAILURE,
   FETCH_COMMENTS_REQUEST,
   FETCH_COMMENTS_SUCCESS,
-} from "./ActionTypes";
+} from "./ActionType";
 
 export const createComment = (commentData) => {
   return async (dispatch) => {

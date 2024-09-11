@@ -18,12 +18,12 @@ import {
 
 const initialState = {
   issues: [],
+  issueDetails: [],
   loading: false,
   error: null,
-  issueDetails: null,
 };
 
-const issueReducer = (state = initialState, action) => {
+export const issueReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ISSUES_REQUEST:
     case CREATE_ISSUE_REQUEST:
@@ -36,23 +36,15 @@ const issueReducer = (state = initialState, action) => {
         error: null,
       };
     case FETCH_ISSUES_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        issues: action.issues,
-      };
+      return { ...state, loading: false, issues: action.issues };
     case FETCH_ISSUES_BY_ID_SUCCESS:
     case UPDATE_ISSUE_STATUS_SUCCESS:
-      return {
-        ...state,
-        loading: false,
-        issueDetails: action.issues,
-      };
+      return { ...state, loading: false, issueDetails: action.issues };
     case CREATE_ISSUE_SUCCESS:
       return {
         ...state,
         loading: false,
-        issues: [...state.issues, action.issue],
+        issues: [...state.issues, action.issues],
       };
     case ASSIGNED_ISSUE_TO_USER_SUCCESS:
       return {
@@ -81,5 +73,3 @@ const issueReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-export default issueReducer;

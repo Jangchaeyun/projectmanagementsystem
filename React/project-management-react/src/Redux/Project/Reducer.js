@@ -39,6 +39,7 @@ export const projectReducer = (state = initialState, action) => {
         ...state,
         loading: false,
         error: null,
+        searchProjects: [],
         projects: action.projects,
       };
 

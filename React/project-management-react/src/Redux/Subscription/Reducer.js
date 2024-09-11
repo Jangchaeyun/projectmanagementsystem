@@ -13,7 +13,7 @@ const initialState = {
   error: null,
 };
 
-const subscriptionReducer = (state = initialState, action) => {
+export const subscriptionReducer = (state = initialState, action) => {
   switch (action.payload) {
     case GET_USER_SUBSCRIPTION_REQUEST:
     case UPGRADE_SUBSCRIPTION_REQUEST:
@@ -48,5 +48,3 @@ const subscriptionReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-export default subscriptionReducer;

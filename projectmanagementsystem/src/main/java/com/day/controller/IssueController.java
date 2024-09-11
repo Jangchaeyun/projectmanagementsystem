@@ -69,7 +69,7 @@ public class IssueController {
         return ResponseEntity.ok(res);
     }
 
-    @PutMapping("/{issueId}/asignee/{userId}")
+    @PutMapping("/{issueId}/assignee/{userId}")
     public ResponseEntity<Issue> addUserToIssue(@PathVariable Long issueId,
                                                 @PathVariable Long userId) throws Exception {
         Issue issue = issueService.addUserToIssue(issueId, userId);
