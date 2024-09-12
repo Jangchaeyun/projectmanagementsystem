@@ -23,7 +23,7 @@ const ChatBox = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(fetchChatMessages(chat.chat.id));
+    dispatch(fetchChatMessages(chat.chat?.id));
   }, []);
 
   const handleSendMessage = () => {
@@ -34,6 +34,7 @@ const ChatBox = () => {
         content: message,
       })
     );
+    setMessage("");
     console.log("message", message);
   };
   const handleMessageChange = (e) => {
@@ -45,25 +46,25 @@ const ChatBox = () => {
       <div className="border rounded-lg">
         <h1 className="border-b p-5">Chat Box</h1>
         <ScrollArea className="h-[32rem] w-full p-5 flex gap-3 flex-col">
-          {[1, 1, 1, 1].map((item, index) =>
-            index % 2 == 0 ? (
+          {chat.messages?.map((item) =>
+            item.sender.id == auth.user.id ? (
               <div className="flex gap-2 mb-2 justify-start" key={item}>
                 <Avatar>
-                  <AvatarFallback>B</AvatarFallback>
+                  <AvatarFallback>{item.sender.fullName[0]}</AvatarFallback>
                 </Avatar>
                 <div className="space-y-2 py-2 px-5 border rounded-ss-2xl rounded-e-xl">
-                  <p>Band Aid</p>
-                  <p className="text-gray-300">How are you</p>
+                  <p>{item.sender.fullName}</p>
+                  <p className="text-gray-300">{item.content}</p>
                 </div>
               </div>
             ) : (
               <div className="flex gap-2 mb-2 justify-end" key={item}>
                 <Avatar>
-                  <AvatarFallback>B</AvatarFallback>
+                  <AvatarFallback>{item.sender.fullName[0]}</AvatarFallback>
                 </Avatar>
                 <div className="space-y-2 py-2 px-5 border rounded-ss-2xl rounded-x-xl">
-                  <p>Band Aid</p>
-                  <p className="text-gray-300">How are you</p>
+                  <p>{item.sender.fullName}</p>
+                  <p className="text-gray-300">{item.content}</p>
                 </div>
               </div>
             )

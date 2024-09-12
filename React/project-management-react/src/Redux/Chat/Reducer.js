@@ -1,24 +1,24 @@
 import {
-  FETCH_MESSAGES_REQUEST,
-  SEND_MESSAGE_REQUEST,
-  FETCH_CHAT_MESSAGES_REQUEST,
-  FETCH_MESSAGES_SUCCESS,
-  FETCH_CHAT_MESSAGES_SUCCESS,
-  SEND_MESSAGE_SUCCESS,
   FETCH_CHAT_BY_PROJECT_SUCCESS,
+  FETCH_CHAT_MESSAGES_FAILURE,
+  FETCH_CHAT_MESSAGES_REQUEST,
+  FETCH_CHAT_MESSAGES_SUCCESS,
   FETCH_MESSAGES_FAILURE,
+  FETCH_MESSAGES_REQUEST,
+  FETCH_MESSAGES_SUCCESS,
   SEND_MESSAGE_FAILURE,
-  FETCH_CHAT_MESSAGES_FAIURE,
+  SEND_MESSAGE_REQUEST,
+  SEND_MESSAGE_SUCCESS,
 } from "./ActionType";
 
-const initalState = {
+const initialState = {
   messages: [],
   loading: false,
   error: null,
   chat: null,
 };
 
-export const ChatReducer = (state = initalState, action) => {
+export const chatReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_MESSAGES_REQUEST:
     case SEND_MESSAGE_REQUEST:
@@ -49,7 +49,7 @@ export const ChatReducer = (state = initalState, action) => {
       };
     case FETCH_MESSAGES_FAILURE:
     case SEND_MESSAGE_FAILURE:
-    case FETCH_CHAT_MESSAGES_FAIURE:
+    case FETCH_CHAT_MESSAGES_FAILURE:
       return {
         ...state,
         loading: false,

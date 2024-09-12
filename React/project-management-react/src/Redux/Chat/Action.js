@@ -1,11 +1,10 @@
 import api from "@/config/api";
 import {
-  FETCH_CHAT_BY_PROJECT_FAILURE,
-  FETCH_CHAT_BY_PROJECT_REQUEST,
-  FETCH_CHAT_BY_PROJECT_SUCCESS,
-  FETCH_CHAT_MESSAGES_FAIURE,
+  FETCH_CHAT_MESSAGES_FAILURE,
   FETCH_CHAT_MESSAGES_REQUEST,
   FETCH_CHAT_MESSAGES_SUCCESS,
+  FETCH_CHAT_BY_PROJECT_REQUEST,
+  FETCH_CHAT_BY_PROJECT_SUCCESS,
   SEND_MESSAGE_FAILURE,
   SEND_MESSAGE_REQUEST,
   SEND_MESSAGE_SUCCESS,
@@ -18,7 +17,7 @@ export const sendMessage = (messageData) => {
       const response = await api.post("/api/messages/send", messageData);
       dispatch({
         type: SEND_MESSAGE_SUCCESS,
-        messages: response.data,
+        message: response.data,
       });
       console.log("message sent", response.data);
     } catch (error) {
@@ -36,17 +35,13 @@ export const fetchChatByProject = (projectId) => {
     dispatch({ type: FETCH_CHAT_BY_PROJECT_REQUEST });
     try {
       const response = await api.get(`/api/projects/${projectId}/chat`);
-      console.log("fetch chat ", response.data);
+      console.log("fatch chat ", response.data);
       dispatch({
         type: FETCH_CHAT_BY_PROJECT_SUCCESS,
         chat: response.data,
       });
     } catch (error) {
       console.log("error -- ", error);
-      dispatch({
-        type: FETCH_CHAT_BY_PROJECT_FAILURE,
-        error: error.message,
-      });
     }
   };
 };
@@ -63,9 +58,9 @@ export const fetchChatMessages = (chatId) => {
         messages: response.data,
       });
     } catch (error) {
-      console.log("error --", error);
+      console.log("error -- ", error);
       dispatch({
-        type: FETCH_CHAT_MESSAGES_FAIURE,
+        type: FETCH_CHAT_MESSAGES_FAILURE,
         error: error.message,
       });
     }
