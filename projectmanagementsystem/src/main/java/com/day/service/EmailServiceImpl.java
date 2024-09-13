@@ -12,12 +12,13 @@ public class EmailServiceImpl implements EmailService{
 
     @Autowired
     private JavaMailSender javaMailSender;
+
     @Override
     public void sendEmailToken(String userEmail, String link) throws Exception {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
         
-        String subject = "프로젝트 팀 초대<br/>";
+        String subject = "프로젝트 팀 초대";
         String text = "링크를 클릭해서 팀에 들어가기: " + link;
 
         helper.setSubject(subject);
@@ -28,7 +29,9 @@ public class EmailServiceImpl implements EmailService{
             javaMailSender.send(mimeMessage);
         }
         catch (MailSendException e) {
-            throw new MailSendException("Failed to send email");
+            System.err.println("Failed to send email to " + userEmail);
+            e.printStackTrace();
+            throw e;
         }
     }
 }

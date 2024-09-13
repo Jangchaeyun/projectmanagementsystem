@@ -10,6 +10,7 @@ import {
   FETCH_PROJECT_BY_ID_SUCCESS,
   FETCH_PROJECTS_REQUEST,
   FETCH_PROJECTS_SUCCESS,
+  INVITE_TO_PROJECT_FAILURE,
   INVITE_TO_PROJECT_REQUEST,
   INVITE_TO_PROJECT_SUCCESS,
   SEARCH_PROJECT_FAILURE,
@@ -86,26 +87,27 @@ export const inviteToProject =
         email,
         projectId,
       });
-      console.log("invite projects", data);
       dispatch({ type: INVITE_TO_PROJECT_SUCCESS, payload: data });
+      console.log("invite project", data);
     } catch (error) {
       console.log("error", error);
+      dispatch({ type: INVITE_TO_PROJECT_FAILURE, error });
     }
   };
 
 export const acceptInvitation =
-  ({ invitationToken, navigate }) =>
+  ({ token, navigate }) =>
   async (dispatch) => {
     dispatch({ type: ACCEPT_INVITATION_REQUEST });
     try {
-      const { data } = await api.get("/api/projects/accept_invite", {
+      const { data } = await api.get("/api/projects/accept_invitation", {
         params: {
-          token: invitationToken,
+          token,
         },
       });
-      navigate("/project" + data.projectId);
-      console.log("accept invitation", data);
       dispatch({ type: ACCEPT_INVITATION_SUCCESS, payload: data });
+      console.log("accept invitation", data);
+      // navigate("/project/" + data.projectId);
     } catch (error) {
       console.log("error", error);
     }

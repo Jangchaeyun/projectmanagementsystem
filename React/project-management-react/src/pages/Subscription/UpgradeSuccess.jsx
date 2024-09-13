@@ -1,6 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { getUserSubscription, upgradeSubscription } from "@/Redux/Subscription/Action";
+import {
+  getUserSubscription,
+  upgradeSubscription,
+} from "@/Redux/Subscription/Action";
 import { CheckCircledIcon } from "@radix-ui/react-icons";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +20,7 @@ const UpgradeSuccess = () => {
   const planType = queryParams.get("planType");
 
   useEffect(() => {
-    dispatch(upgradeSubscription({planType}))
+    dispatch(upgradeSubscription({ planType }));
     dispatch(getUserSubscription());
   }, []);
 
@@ -29,9 +32,15 @@ const UpgradeSuccess = () => {
           <p className="text-xl">플랜 업그레이드 성공</p>
         </div>
         <div className="space-y-3">
-          <p className="text-green-500">시작 날짜: </p>
-          <p className="text-red-500">종료 날짜: </p>
-          <p className="">플랜 타입: </p>
+          <p className="text-green-500">
+            시작 날짜: {subscription.userSubscription?.subscriptionStartDate}
+          </p>
+          <p className="text-red-500">
+            종료 날짜: {subscription.userSubscription?.subscriptionEndDate}
+          </p>
+          <p className="">
+            플랜 타입: {subscription.userSubscription?.planType}
+          </p>
         </div>
         <Button onClick={() => navigate("/")}>홈으로 돌아가기</Button>
       </Card>

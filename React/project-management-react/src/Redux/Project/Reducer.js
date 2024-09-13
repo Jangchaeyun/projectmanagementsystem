@@ -58,6 +58,7 @@ export const projectReducer = (state = initialState, action) => {
         error: null,
         projects: [...state.projects, action.payload],
       };
+
     case FETCH_PROJECT_BY_ID_SUCCESS:
       return {
         ...state,
@@ -65,8 +66,8 @@ export const projectReducer = (state = initialState, action) => {
         error: null,
         projectDetails: action.project,
       };
+
     case DELETE_PROJECT_SUCCESS:
-      console.log("----------------", action.projectId);
       return {
         ...state,
         loading: false,
@@ -75,6 +76,7 @@ export const projectReducer = (state = initialState, action) => {
           (project) => project.id !== action.projectId
         ),
       };
+
     default:
       return state;
   }

@@ -10,5 +10,4 @@ import lombok.NoArgsConstructor;
 public class InviteRequest {
     private Long projectId;
     private String email;
-
 }
