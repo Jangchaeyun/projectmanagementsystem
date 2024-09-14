@@ -1,7 +1,10 @@
 package com.day.service;
 
 import com.day.modal.Invitation;
+import com.day.modal.Project;
+import com.day.modal.User;
 import com.day.repository.InvitationRepository;
+import com.day.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,9 @@ public class InvitationServiceImpl implements InvitationService {
     @Autowired
     private EmailService emailService;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     public void sendInvitation(String email, Long projectId) throws Exception {
         String invitationToken = UUID.randomUUID().toString();
@@ -29,7 +35,7 @@ public class InvitationServiceImpl implements InvitationService {
         invitationRepository.save(invitation);
 
         String invitationLink = "http://localhost:5173/accept_invitation?token=" + invitationToken;
-        emailService.sendEmailToken(email, invitationLink);
+        emailService.sendEmailWithToken(email, invitationLink);
     }
 
     @Override
@@ -38,6 +44,10 @@ public class InvitationServiceImpl implements InvitationService {
         if (invitation == null) {
             throw new Exception("Invalid invitation token");
         }
+
+        // 초대된 사용자의 이메일로 사용자 정보 조회
+        User invitedUser = userService.findUserByEmail(invitation.getEmail());
+
         return invitation;
     }
 

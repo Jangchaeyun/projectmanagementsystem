@@ -67,7 +67,7 @@ public class ProjectController {
             @RequestBody Project project
     ) throws Exception {
         User user = userService.findUserProfileByJwt(jwt);
-        Project updatedProject = projectService.uodateProject(project, projectId);
+        Project updatedProject = projectService.updateProject(project, projectId);
         return new ResponseEntity<>(updatedProject, HttpStatus.OK);
     }
 
@@ -120,7 +120,16 @@ public class ProjectController {
     ) throws Exception {
         User user = userService.findUserProfileByJwt(jwt);
         Invitation invitation = invitationService.acceptInvitation(token, user.getId());
-        projectService.addUserToProject(invitation.getProjectId(), user.getId());
+
+        // 초대된 사용자의 ID로 사용자 정보를 찾고, 프로젝트에 추가
+        User invitedUser = userService.findUserByEmail(invitation.getEmail());
+
+        // 프로젝트에 사용자 추가
+        projectService.addUserToProject(invitation.getProjectId(), invitedUser.getId());
+
+        // 프로젝트 ID와 유저 ID 로그 출력
+        System.out.println("Invitation Project ID: " + invitation.getProjectId());
+        System.out.println("User ID: " + invitedUser.getId());
 
         return new ResponseEntity<>(invitation, HttpStatus.ACCEPTED);
     }

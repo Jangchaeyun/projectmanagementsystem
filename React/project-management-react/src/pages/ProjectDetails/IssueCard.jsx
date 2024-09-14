@@ -39,9 +39,6 @@ const IssueCard = ({ item, projectId }) => {
             </DropdownMenuTrigger>
 
             <DropdownMenuContent>
-              <DropdownMenuItem>진행 중</DropdownMenuItem>
-              <DropdownMenuItem>완료</DropdownMenuItem>
-              <DropdownMenuItem>수정</DropdownMenuItem>
               <DropdownMenuItem onClick={handleIssueDelete}>
                 삭제
               </DropdownMenuItem>
@@ -51,7 +48,7 @@ const IssueCard = ({ item, projectId }) => {
       </CardHeader>
       <CardContent className="py-0">
         <div className="flex items-center justify-between">
-          <p>FBP - {1}</p>
+          <p>{item.description}</p>
           <DropdownMenu className="w-[30rem] border border-red-400">
             <DropdownMenuTrigger>
               <Button

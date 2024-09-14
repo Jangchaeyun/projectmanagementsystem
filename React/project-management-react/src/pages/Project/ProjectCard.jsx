@@ -9,7 +9,7 @@ import {
 import { deleteProject, fetchProjectById } from "@/Redux/Project/Action";
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { DotFilledIcon, DotsVerticalIcon } from "@radix-ui/react-icons";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -19,7 +19,7 @@ const ProjectCard = ({ item }) => {
   const handleDelete = () => {
     dispatch(deleteProject({ projectId: item.id }));
   };
-  
+
   return (
     <Card className="p-5 w-full lg:max-w-3xl">
       <div className="space-y-5">

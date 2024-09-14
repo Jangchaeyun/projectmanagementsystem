@@ -1,5 +1,5 @@
 package com.day.service;
 
 public interface EmailService {
-    void sendEmailToken(String userEmail, String link) throws Exception;
+    void sendEmailWithToken(String userEmail, String link) throws Exception;
 }

@@ -14,7 +14,7 @@ public class EmailServiceImpl implements EmailService{
     private JavaMailSender javaMailSender;
 
     @Override
-    public void sendEmailToken(String userEmail, String link) throws Exception {
+    public void sendEmailWithToken(String userEmail, String link) throws Exception {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
         

@@ -76,10 +76,6 @@ const ProjectDetails = () => {
                   <p className="w-36">카테고리 : </p>
                   <p>{project.projectDetails?.category}</p>
                 </div>
-                <div className="flex">
-                  <p className="w-36">상태 : </p>
-                  <Badge>Band Aid</Badge>
-                </div>
               </div>
               <section>
                 <p className="py-5 border-b text-lg tracking-wider">Tasks</p>

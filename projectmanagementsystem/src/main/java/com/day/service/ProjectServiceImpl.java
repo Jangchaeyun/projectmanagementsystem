@@ -5,9 +5,9 @@ import com.day.modal.Project;
 import com.day.modal.User;
 import com.day.repository.ProjectRepository;
 import com.day.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -80,7 +80,7 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public Project uodateProject(Project updatedProject, Long id) throws Exception {
+    public Project updateProject(Project updatedProject, Long id) throws Exception {
         Project project = getProjectById(id);
 
         project.setName(updatedProject.getName());
@@ -94,21 +94,27 @@ public class ProjectServiceImpl implements ProjectService{
     public void addUserToProject(Long projectId, Long userId) throws Exception {
         Project project = getProjectById(projectId);
         User user = userService.findUserById(userId);
+
+        if (project.getTeam().stream().anyMatch(member -> member.getId().equals(userId))) {
+            System.out.println("User is already in the project");
+            return;
+        }
+
 //        if (!project.getTeam().contains(user)) {
 //            project.getChat().getUsers().add(user);
 //            project.getTeam().add(user);
 //        }
-        for (User member : project.getTeam()) {
-            if (member.getId().equals(userId)) {
-                return;
-            }
-        }
+//        for (User member : project.getTeam()) {
+//            if (member.getId().equals(userId)) {
+//                return;
+//            }
+//        }
         project.getChat().getUsers().add(user);
         project.getTeam().add(user);
 
         projectRepository.save(project);
 
-        System.out.println("--------------" + !project.getTeam().contains(user));
+        System.out.println("User added to project successfully");
     }
 
     @Override

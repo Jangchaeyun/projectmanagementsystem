@@ -47,7 +47,7 @@ const ChatBox = () => {
         <h1 className="border-b p-5">Chat Box</h1>
         <ScrollArea className="h-[32rem] w-full p-5 flex gap-3 flex-col">
           {chat.messages?.map((item) =>
-            item.sender.id == auth.user.id ? (
+            item.sender.id != auth.user.id ? (
               <div className="flex gap-2 mb-2 justify-start" key={item}>
                 <Avatar>
                   <AvatarFallback>{item.sender.fullName[0]}</AvatarFallback>
